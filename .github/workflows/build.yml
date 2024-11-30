@@ -30,7 +30,7 @@ jobs:
         pyinstaller --onefile 计数君之死亡次数时间计数.py
 
     - name: Archive artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: GameTimeTracker
         path: dist/计数君之死亡次数时间计数
