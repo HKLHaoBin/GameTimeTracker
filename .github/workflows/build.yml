@@ -1,36 +1,37 @@
-name: Build and Package
+name: Build Executable
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: windows-latest  # 使用 Ubuntu 环境进行构建，适用于跨平台构建（Windows / Mac / Linux）
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.11'  # 使用你需要的 Python 版本
-
+        python-version: '3.11'  # 选择 Python 版本，确保与你的项目兼容
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller
         pip install -r requirements.txt
-
-    - name: Build executable
+    
+    - name: Build Executable using PyInstaller
       run: |
-        pyinstaller --onefile 计数君之死亡次数时间计数.py
+        pyinstaller --onefile --distpath dist --workpath build 计数君之死亡次数时间计数.py
 
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v4
+    - name: Upload executable as artifact
+      uses: actions/upload-artifact@v3
       with:
-        name: GameTimeTracker
-        path: dist/计数君之死亡次数时间计数
+        name: executable-file
+        path: dist/计数君之死亡次数时间计数  # 这个路径是 PyInstaller 输出的文件路径
