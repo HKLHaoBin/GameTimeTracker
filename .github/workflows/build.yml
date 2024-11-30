@@ -10,32 +10,38 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # 改为 windows 环境，适合生成 .exe 文件
+    runs-on: windows-latest  # 选择 Windows 环境进行构建，适合打包 .exe 文件
     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'  # 确保你使用的是正确的 Python 版本
+        python-version: '3.11'  # 选择与你项目兼容的 Python 版本
     
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # 安装 requirements.txt 中的依赖
+        pip install -r requirements.txt  # 安装所有依赖
     
     - name: Install PyInstaller
       run: |
-        pip install pyinstaller  # 确保安装了 pyinstaller
+        pip install pyinstaller  # 安装 PyInstaller 打包工具
     
     - name: Build Executable using PyInstaller
       run: |
-        pyinstaller --onefile --distpath dist --workpath build 计数君之死亡次数时间计数.py
+        pyinstaller --onefile --distpath dist --workpath build --clean --noconsole --debug all 计数君之死亡次数时间计数.py
 
     - name: Upload executable as artifact
       uses: actions/upload-artifact@v3
       with:
         name: executable-file
-        path: dist/计数君之死亡次数时间计数.exe  # PyInstaller 输出路径
+        path: dist/计数君之死亡次数时间计数.exe  # 上传生成的可执行文件作为构建产物
+
+    - name: Run VirusTotal check (optional)
+      uses: actions/upload-artifact@v3
+      with:
+        name: file-check
+        path: dist/计数君之死亡次数时间计数.exe
