@@ -1,6 +1,7 @@
 # GameTimeTracker
 
 这是一个计时和统计工具，可以用于记录游戏过程中的时间、击打次数、失败次数等信息，并将结果复制到剪贴板。
+[在这里下载Windows可执行程序](https://github.com/HKLHaoBin/GameTimeTracker/actions/runs/12288939622)
 
 ## 功能
 
